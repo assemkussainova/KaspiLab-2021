@@ -1,0 +1,50 @@
+/* Task 1 */ 
+select  emp_id, first_name, last_name, start_date, title  
+from employee 
+where title = 'Head Teller' 
+ 
+/* Task 2 */ 
+select first_name, last_name, start_date 
+from employee 
+where title = 'Head Teller' and start_date > '01-JAN-02' 
+ 
+/* Task 3 */ 
+select first_name, last_name, start_date, title 
+from employee 
+where (title = 'Head Teller' and start_date > '01-JAN-02') 
+        or (title = 'Teller' and start_date > '01-JAN-03') 
+         
+/* Task 4 */ 
+select first_name, last_name, superior_emp_id 
+from employee 
+where superior_emp_id is null 
+ 
+/* Task 5 */ 
+select txn_id 
+from acc_transaction 
+where txn_date < '2005-02-26' AND (txn_type_cd = 'DBT' OR amount > 100) 
+ 
+/* Task 6 */ 
+select txn_id 
+from acc_transaction 
+where account_id IN (11,13) AND NOT (txn_type_cd = 'DBT' OR amount > 100) 
+ 
+/* Task 7 */ 
+select * 
+from account 
+where open_date between '01-JAN-02' and '31-DEC-02' 
+ 
+/* Task 8 */ 
+select account_id, cust_id, avail_balance 
+from account 
+where status = 'ACTIVE' and avail_balance > 2500 
+ 
+/* Task 9 */ 
+select * 
+from individual 
+where last_name like '_a%e%' 
+ 
+/* Task 10 */ 
+select account_id, open_date 
+from account 
+order by account_id desc, open_date desc

@@ -1,0 +1,30 @@
+/* Task 1 */
+create table copy_account
+as
+select *
+from account
+
+/* Task 2*/
+update copy_account
+set avail_balance = 100000
+where account_id = 1;
+commit;
+
+/* Task 3 */
+delete from copy_account;
+rollback;
+
+/* Task 4 */
+delete from copy_account
+where account_id = 3;
+commit;
+
+/* Task 5 */
+delete from copy_account
+where avail_balance > 10000
+
+/* Task 6 */
+delete from copy_account
+
+/* Task 7 */
+drop table copy_account

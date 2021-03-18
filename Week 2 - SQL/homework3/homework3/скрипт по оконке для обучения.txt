@@ -1,0 +1,91 @@
+      
+      select 
+      cust_id,
+      product_cd,
+      open_emp_id,
+      open_branch_id,
+      sum(avail_balance) over (partition by product_cd) / avg(avail_balance) over (partition by cust_id) as all_sum,
+      max(avail_balance) over (partition by product_cd) as all_max,
+      avg(avail_balance) over (partition by cust_id) as cust_avg,
+      min(avail_balance) over (partition by cust_id, product_cd) as min_prod_cust
+      from account
+      order by cust_id;
+
+
+   select 
+      cust_id,
+      product_cd,
+      open_emp_id,
+      open_branch_id,
+      row_number() over (order by open_date DESC) as row_date,
+      rank() over (order by open_date DESC) as rank_date,
+      dense_rank() over (order by open_date DESC) as denserank_date,
+      ntile(4) over (order by open_date DESC) as ntile_date
+   from account;
+   
+   select 
+   *
+   from
+   (select 
+      cust_id,
+      product_cd,
+      row_number() over (partition by product_cd order by avail_balance DESC) as rn
+   from account)
+   where rn = 1;
+   
+   
+   
+   select 
+   cust_id,
+   open_date,
+   lead(product_cd) over (partition by cust_id order by open_date) as lead_opendt,
+   lag(open_date) over (partition by cust_id order by open_date) as lag_opendt
+   from account;
+   
+   
+ select 
+ cust_id,
+ first_value(avail_balance) over (partition by cust_id order by avail_balance) as first_v,
+ last_value(avail_balance) over (partition by cust_id order by avail_balance) as last_v,
+ min(avail_balance) keep (dense_rank first order by avail_balance) over (partition by cust_id) as f_bal,
+ max(avail_balance) keep (dense_rank last order by avail_balance) over (partition by cust_id) as l_bal
+ from account;
+   
+   
+ SELECT
+ cust_id,
+ product_cd,
+ avail_balance,
+ SUM(avail_balance)
+ OVER (PARTITION BY product_cd ORDER BY open_date
+ ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) sum_bal
+ FROM account;
+  
+ 
+ SELECT
+     cust_id,
+     product_cd,
+     avail_balance,
+     SUM(avail_balance)
+     OVER (PARTITION BY product_cd ORDER BY open_date
+     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) sum_bal_1,
+     
+     
+     SUM(avail_balance)
+     OVER (PARTITION BY product_cd ORDER BY open_date
+     RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) sum_bal_1,
+     
+     SUM(avail_balance)
+     OVER (PARTITION BY product_cd ORDER BY open_date
+     ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) sum_bal_2,
+      
+     SUM(avail_balance)
+     OVER (PARTITION BY product_cd ORDER BY open_date
+     ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) sum_bal_3
+ FROM account
+ where product_cd = 'CD';
+ 
+ 
+ 
+   
+ 

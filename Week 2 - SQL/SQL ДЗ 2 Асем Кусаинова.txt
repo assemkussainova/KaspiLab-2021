@@ -1,0 +1,80 @@
+/* Task 1 */
+select sysdate
+as current_date
+from dual
+
+/* Task 2 */
+select substr('Please find the substring in this string', 17, 25)
+as substring
+from dual
+
+/* Task 3 */
+select round(-25.76823, 2)
+as round
+from dual
+
+/* Task 4 */
+select trunc(sysdate, 'month')
+as start_month
+from dual
+
+/* Task 5 */
+select count(account_id)
+as number_of_rows
+from account
+
+/* Task 6 */
+select cust_id, count(account_id)
+as number_of_accounts
+from account
+group by cust_id
+
+/* Task 7 */
+select cust_id, count(account_id)
+as number_of_accounts
+from account
+group by cust_id
+having count(account_id) > 2
+
+/* Task 8 */
+select sum(avail_balance)
+as total_sum
+from account
+
+/* Task 9 */
+select round(avg(amount), 1)
+as average
+from acc_transaction
+
+/* Task 10 */
+select account_id, avail_balance
+from account
+where account_id = 1
+union
+select account_id, avail_balance
+from account
+where account_id = 3
+union
+select account_id, avail_balance
+from account
+where account_id = 5
+
+/* Task 11 */
+select e.emp_id as employee, e.last_name, b.name as branch, b.address
+from employee e
+join branch b
+on e.assigned_branch_id = b.branch_id
+
+/* Task 12 */
+select a.first_name, a.start_date 
+from employee a
+join employee b 
+on a.emp_id != b.emp_id and b.emp_id = 2
+where a.start_date > b.start_date
+
+/* Task 13 */
+select i.first_name, a.account_id, a.avail_balance, i.birth_date
+from account a
+join individual i
+on a.cust_id = i.cust_id
+where i.birth_date = '25-AUG-71'
